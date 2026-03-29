@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentiment Analysis</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        font-family: "Georgia", "Times New Roman", serif;
+        margin: 0;
+        background: radial-gradient(circle at top, #fdf4e7, #f7e7c5);
+        color: #2a1f12;
+      }
+      .container {
+        max-width: 720px;
+        margin: 48px auto;
+        padding: 32px;
+        background: #fff9ee;
+        border: 2px solid #e9d8b6;
+        box-shadow: 0 10px 30px rgba(42, 31, 18, 0.12);
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 32px;
+        letter-spacing: 0.5px;
+      }
+      p {
+        line-height: 1.6;
+      }
+      textarea {
+        width: 100%;
+        min-height: 140px;
+        padding: 12px;
+        border: 2px solid #d9c7a3;
+        font-size: 16px;
+        background: #fffdf8;
+      }
+      button {
+        margin-top: 16px;
+        padding: 12px 20px;
+        background: #5d3c1a;
+        color: #fff;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .result {
+        margin-top: 24px;
+        padding: 16px;
+        background: #fff1d6;
+        border-left: 6px solid #5d3c1a;
+      }
+      .score {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sentiment Analysis</h1>
+      <p>Type a review below and the model will predict if it is positive or negative.</p>
+      <form method="post">
+        {% csrf_token %}
+        <textarea name="text" placeholder="Enter a review...">{{ text }}</textarea>
+        <button type="submit">Analyze</button>
+      </form>
+
+      {% if result %}
+      <div class="result">
+        <div>Prediction: <span class="score">{{ result }}</span></div>
+        {% if prob is not None %}
+        <div>Confidence: {{ prob|floatformat:4 }}</div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
